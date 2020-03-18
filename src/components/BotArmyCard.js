@@ -9,14 +9,14 @@ const botTypeClasses = {
   Captain: "icon star"
 };
 
-const BotCard = props => {
+const BotArmyCard = props => {
   console.log(props);
   return (
     <div className="ui column">
       <div
         className="ui card"
         key={props.bot.id}
-        onClick={(event, botId) => props.addToArmy(event, props.bot.id)}
+        onClick={(event, botId) => props.removeFromArmy(event, props.bot.id)}
       >
         <div className="image">
           <img alt="oh no!" src={props.bot.avatar_url} />
@@ -48,8 +48,8 @@ const BotCard = props => {
             <div className="ui center aligned segment basic">
               <button
                 className="ui mini red button"
-                onClick={() =>
-                  console.log("add code to connect event listener")
+                onClick={(event, botId) =>
+                  props.deleteBot(event, props.bot.id)
                 }
               >
                 x
@@ -62,4 +62,4 @@ const BotCard = props => {
   );
 };
 
-export default BotCard;
+export default BotArmyCard;
