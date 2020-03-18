@@ -15,8 +15,7 @@ const BotCard = props => {
       <div
         className="ui card"
         key={props.bot.id}
-        onClick={() => {props.addClick(props.bot.id)}}
-        // unsure why addClick is returning undefined
+        onClick={() => console.log("add code to connect event listener")}
       >
         <div className="image">
           <img alt="oh no!" src={props.bot.avatar_url} />
