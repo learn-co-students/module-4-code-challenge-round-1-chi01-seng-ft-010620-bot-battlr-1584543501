@@ -1,4 +1,5 @@
 import React from "react";
+import BotCollection from "../containers/BotCollection"
 
 const botTypeClasses = {
   Assault: "icon military",
@@ -10,12 +11,13 @@ const botTypeClasses = {
 };
 
 const BotCard = props => {
+  console.log(props.bot.id)
   return (
     <div className="ui column">
       <div
         className="ui card"
         key={props.bot.id}
-        onClick={() => console.log("add code to connect event listener")}
+        onClick={() => console.log("need to get this data into the YourBotArmy container but can't set state...")}
       >
         <div className="image">
           <img alt="oh no!" src={props.bot.avatar_url} />
