@@ -15,12 +15,12 @@ const BotCard = props => {
       <div
         className="ui card"
         key={props.bot.id}
-        onClick={() => console.log("add code to connect event listener")}
+        // onClick={() => props.renderDeets(props.bot)}
       >
-        <div className="image">
+        <div className="image" onClick={() => props.addToArmy(props.bot)}>
           <img alt="oh no!" src={props.bot.avatar_url} />
         </div>
-        <div className="content">
+        <div className="content"  onClick={() => props.renderDeets(props.bot)}>
           <div className="header">
             {props.bot.name}
             <i className={botTypeClasses[props.bot.bot_class]} />
@@ -48,7 +48,7 @@ const BotCard = props => {
               <button
                 className="ui mini red button"
                 onClick={() =>
-                  console.log("add code to connect event listener")
+                  props.dropBot(props.bot)
                 }
               >
                 x
