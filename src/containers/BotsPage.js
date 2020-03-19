@@ -7,7 +7,8 @@ class BotsPage extends Component {
   constructor() {
     super()
     this.state = {
-      bots: []
+      bots: [],
+      myBots: []
     }
   }
 
@@ -21,13 +22,50 @@ class BotsPage extends Component {
       })
   }
 
-  //render bots fn
+
+  addBot = (bot) => {
+    if (this.state.myBots.includes(bot)) {
+      alert('This bot is already in your army!')
+    } else {
+      this.setState({
+        myBots: [...this.state.myBots, bot]
+      })
+    }
+  }
+
+  removeBot = (bot) => {
+    const deletedBotId = bot.id
+    const currentBots = this.state.myBots.filter(bot => {
+      return bot.id !== deletedBotId
+    })
+    this.setState({
+      myBots: currentBots
+    })
+//add db deletion functionality
+  }
+
+
+  unenlistBot = (bot) => {
+    const unenlistedBot = bot.id
+    const activeBots = this.state.bots.filter(bot => {
+      return bot.id !== unenlistedBot
+    })
+    const activeArmyBots = this.state.myBots.filter(bot => {
+      return bot.id !== unenlistedBot
+    })
+    this.setState({
+      bots: activeBots,
+      myBots: activeArmyBots
+    })
+  }
+
+  
   //filter for myBots
 
   render() {
     return <div>
-      <YourBotArmy />
-      <BotCollection bots={this.state.bots} />
+      <YourBotArmy myBots={this.state.myBots} removeBot={this.removeBot} unenlistBot={this.unenlistBot}/>
+      <BotCollection bots={this.state.bots} addBot={this.addBot} unenlistBot={this.unenlistBot}/>
     </div>;
   }
 }

@@ -1,21 +1,19 @@
 import React, { Component } from "react";
+import BotCard from '../components/BotCard'
 
 class YourBotArmy extends Component {
-  constructor() {
-    super()
-    this.state
-    //set initial value for my army
+  renderBots = () => {
+    return this.props.myBots.map(botObj => {
+      return <BotCard bot={botObj} handleBot={this.props.removeBot} unenlistBot={this.props.unenlistBot} />
+    })
   }
-
-  //set state when bot is clicked?
 
   render() {
     return (
       <div className="ui segment inverted olive bot-army">
         <div className="ui five column grid">
           <div className="row bot-army-row">
-            mybot
-            Your Bot Army
+            {this.renderBots()}
           </div>
         </div>
       </div>

@@ -5,15 +5,10 @@ class BotCollection extends Component {
  
   renderBots = () => {
     return this.props.bots.map(botObj => {
-      return <BotCard bot={botObj} onclick={this.clickListener} />
+      return <BotCard bot={botObj} handleBot={this.props.addBot} unenlistBot={this.props.unenlistBot} />
     })
   }
 
-  clickListener = (event) => {
-    console.log(event.target)
-    // id = event.target.id
-    // this.props.addBot(id)
-  }
   
   render() {
     return (
