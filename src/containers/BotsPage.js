@@ -9,7 +9,6 @@ class BotsPage extends Component {
 
     this.state = {
       bots: [],
-      army: [],
       showSpec: undefined
     }
   }
@@ -17,10 +16,17 @@ class BotsPage extends Component {
   componentDidMount(){
     fetch('http://localhost:6001/bots')
     .then(resp => resp.json())
-    .then(data => {
+    .then(allBots => {
+
+      const updatedBots = allBots.map(bot => {
+        return {
+          ...bot,
+          enlisted: false 
+        }
+      })
 
       this.setState({
-        bots: data
+        bots: updatedBots
       })
     })
   }
@@ -41,41 +47,44 @@ class BotsPage extends Component {
         return bot.id !== id
       })
 
-      const updatedArmy = this.state.army.filter(bot => {
-        return bot.id !== id
-      })
-
       this.setState({
         bots: updatedBots,
-        army: updatedArmy
       })
-
-
-
-
     })
 
   }
 
   enlist = (clickedBot) => {
-    const botExists = this.state.army.find((bot) => {
-      return bot.id === clickedBot.id
+    const updatedBots = this.state.bots.map(bot => {
+      if (bot.id === clickedBot.id) {
+        return {
+          ...clickedBot,
+          enlisted: true
+        }
+      } else {
+        return bot
+      }
     })
 
-    if (!botExists) {
-      this.setState({
-        army: [...this.state.army, clickedBot],
-        showSpec: undefined
-      })
-    }
+    this.setState({
+      bots: updatedBots
+    })
   }
 
   delist = (clickedBot) => {
-    const updatedArmy = this.state.army.filter((bot) => {
-      return bot.id !== clickedBot.id
+    const updatedBots = this.state.bots.map(bot => {
+      if (bot.id === clickedBot.id) {
+        return {
+          ...clickedBot,
+          enlisted: false
+        }
+      } else {
+        return bot
+      }
     })
+
     this.setState({
-      army: updatedArmy
+      bots: updatedBots
     })
   }
 
@@ -91,20 +100,26 @@ class BotsPage extends Component {
     })
   }
 
+
+  findArmyBots = () => {
+    return this.state.bots.filter(bot  => bot.enlisted)
+  }
+
   render() {
     console.log(this.state)
     return <div>
-      <YourBotArmy delete={this.delete} bots={this.state.army} handleClick={this.delist} />
-
-        {
-          this.state.showSpec ?
-          <BotSpecs bot={this.state.showSpec} enlist={this.enlist} goBack={this.goBack}/>
-            :
-          <BotCollection delete={this.delete} bots={this.state.bots} handleClick={this.showSpec} />
-        }
-
+      <YourBotArmy delete={this.delete} bots={this.findArmyBots()} handleClick={this.delist} />
+      <BotCollection delete={this.delete} bots={this.state.bots} handleClick={this.enlist} />
     </div>;
   }
 }
 
 export default BotsPage;
+
+
+
+        // {
+          // this.state.showSpec ?
+          // <BotSpecs bot={this.state.showSpec} enlist={this.enlist} goBack={this.goBack}/>
+            // :
+        // }
